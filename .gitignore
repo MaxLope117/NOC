@@ -4,3 +4,6 @@ dist/
 # Logs
 DS_Store
 logs/
+
+# Environment variables
+.env
