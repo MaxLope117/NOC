@@ -14,11 +14,17 @@ dependencies:
   env-var:
     specifier: ^7.4.1
     version: 7.4.1
+  nodemailer:
+    specifier: ^6.9.13
+    version: 6.9.13
 
 devDependencies:
   '@types/node':
     specifier: ^20.12.2
     version: 20.12.2
+  '@types/nodemailer':
+    specifier: ^6.4.14
+    version: 6.4.14
   rimraf:
     specifier: ^5.0.5
     version: 5.0.5
@@ -97,6 +103,12 @@ packages:
     resolution: {integrity: sha512-zQ0NYO87hyN6Xrclcqp7f8ZbXNbRfoGWNcMvHTPQp9UUrwI0mI7XBz+cu7/W6/VClYo2g63B0cjull/srU7LgQ==}
     dependencies:
       undici-types: 5.26.5
+    dev: true
+
+  /@types/nodemailer@6.4.14:
+    resolution: {integrity: sha512-fUWthHO9k9DSdPCSPRqcu6TWhYyxTBg382vlNIttSe9M7XfsT06y0f24KHXtbnijPGGRIcVvdKHTNikOI6qiHA==}
+    dependencies:
+      '@types/node': 20.12.2
     dev: true
 
   /@types/strip-bom@3.0.0:
@@ -436,6 +448,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: true
+
+  /nodemailer@6.9.13:
+    resolution: {integrity: sha512-7o38Yogx6krdoBf3jCAqnIN4oSQFx+fMa0I7dK1D+me9kBxx12D+/33wSb+fhOCtIxvYJ+4x4IMEhmhCKfAiOA==}
+    engines: {node: '>=6.0.0'}
+    dev: false
 
   /normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}

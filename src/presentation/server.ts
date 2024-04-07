@@ -1,6 +1,8 @@
+import { envs } from '../config';
 import { CheckService } from '../domain';
 import { FileSystemDatasource, LogRepositoryImpl } from '../infrastructure';
 import { CronService } from './cron';
+import { EmailService } from './email';
 
 const fileSystemLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource(),
@@ -16,19 +18,37 @@ export class Server {
             console.log('\tServer started...');
         console.log('=====================================\n');
 
-        CronService.createJob(
-            '*/10 * * * * *',
-            () => {
-                const url = 'https://google.com';
-                // const url = 'http://localhost:3000/';
-                new CheckService(
-                    fileSystemLogRepository,
-                    () => console.log(`${url} - Is OK`), //* O 'undefined'
-                    (error) => console.error(error), //* O 'undefined'
-                ).execute(url);
-                // new CheckService().execute('http://localhost:3000/');
-            }
-        );
+        //* Send email
+        // console.log(envs.MAILER_EMAIL, envs.MAILER_KEY);
+        // const emailService = new EmailService(
+        //     fileSystemLogRepository,
+        // );
+        // emailService.sendEmailWithFileSystemLogs(['lopemax11.7@gmail.com', 'maxlope@outlook.com']);
+        // emailService.sendEmail({
+        //     to: 'lopemax11.7@gmail.com',
+        //     subject: 'Logs de sistema',
+        //     htmlBody: `
+        //         <h3>Logs de Sistema - NOC</h3>
+        //         <p>Ullamco officia aliqua nostrud qui in culpa minim amet fugiat.</p>
+        //         <p>Ver logs adjuntos</p>
+
+        //     `
+        // });
+
+        //* Cron Service
+        // CronService.createJob(
+        //     '*/10 * * * * *',
+        //     () => {
+        //         const url = 'https://google.com';
+        //         // const url = 'http://localhost:3000/';
+        //         new CheckService(
+        //             fileSystemLogRepository,
+        //             () => console.log(`${url} - Is OK`), //* O 'undefined'
+        //             (error) => console.error(error), //* O 'undefined'
+        //         ).execute(url);
+        //         // new CheckService().execute('http://localhost:3000/');
+        //     }
+        // );
     }
 
 }
