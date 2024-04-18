@@ -23,44 +23,32 @@ export class EmailService {
         }
     });
 
-    constructor(
-        private readonly logRepository: LogRepository,
-    ) {}
-
     async sendEmail(options: SendMailOptions): Promise<boolean> {
 
         const { to, subject, htmlBody, attachments = [] } = options;
 
         try {
 
-            const sendInformation = await this.trasporter.sendMail({
+            await this.trasporter.sendMail({
                 to,
                 from: 'maxlope.cursos@gmail.com',
                 subject,
                 html: htmlBody,
                 attachments,
             });
+
+            // const sendInformation = await this.trasporter.sendMail({
+            //     to,
+            //     from: 'maxlope.cursos@gmail.com',
+            //     subject,
+            //     html: htmlBody,
+            //     attachments,
+            // });
             // console.log(sendInformation);
-
-            const log = new LogEntity({
-                level: LogSeverityLevel.medium,
-                message: 'Email Sent',
-                origin: 'email.service.ts',
-            });
-
-            this.logRepository.saveLog(log);
 
             return true;
             
         } catch (error) {
-
-            const log = new LogEntity({
-                level: LogSeverityLevel.high,
-                message: 'Email not Sent',
-                origin: 'email.service.ts',
-            });
-
-            this.logRepository.saveLog(log);
 
             return false;
             

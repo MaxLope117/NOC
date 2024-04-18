@@ -1,5 +1,5 @@
 import { envs } from '../config';
-import { CheckService } from '../domain';
+import { CheckService, SendEmailLogs } from '../domain';
 import { FileSystemDatasource, LogRepositoryImpl } from '../infrastructure';
 import { CronService } from './cron';
 import { EmailService } from './email';
@@ -8,7 +8,9 @@ const fileSystemLogRepository = new LogRepositoryImpl(
     new FileSystemDatasource(),
     // new postfresSQLLogDatasource(),
     // new mongoLogDatasource(),
-)
+);
+
+const emailService = new EmailService();
 
 
 export class Server {
@@ -19,6 +21,13 @@ export class Server {
         console.log('=====================================\n');
 
         //* Send email
+        new SendEmailLogs(
+            emailService,
+            fileSystemLogRepository,
+        ).execute([
+            'lopemax11.7@gmail.com'
+        ])
+        
         // console.log(envs.MAILER_EMAIL, envs.MAILER_KEY);
         // const emailService = new EmailService(
         //     fileSystemLogRepository,
