@@ -14,7 +14,18 @@ pnpm install
 2. Configurar las variables de entorno del archivo **.env**:
 
 ```
-PORT=3000
+PORT=
+
+MAILER_SERVICE=
+MAILER_EMAIL=
+MAILER_KEY=
+
+MONGO_URL=
+MONGO_DB_NAME=
+MONGO_USER=
+MONGO_PASS=
+
+PROD=
 ```
 
 3. Ejecutar la aplicación con:
