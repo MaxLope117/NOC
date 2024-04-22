@@ -5,8 +5,6 @@ import { LogEntity, LogSeverityLevel } from '../entities';
  ** El repository es quién llama el datasource.
  */
 export abstract class LogRepository {
-
-    abstract saveLog(log: LogEntity): Promise<void>;
-    abstract getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]>;
-
+  abstract saveLog(log: LogEntity): Promise<void>;
+  abstract getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]>;
 }

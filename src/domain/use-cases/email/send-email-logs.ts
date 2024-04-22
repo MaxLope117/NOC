@@ -3,46 +3,40 @@ import { LogEntity, LogSeverityLevel } from '../../entities';
 import { LogRepository } from '../../repository';
 
 interface SendLogEmailUseCase {
-    execute: (to: string | string[]) => Promise<boolean>
+  execute: (to: string | string[]) => Promise<boolean>;
 }
 
 export class SendEmailLogs implements SendLogEmailUseCase {
+  constructor(
+    private readonly emailService: EmailService,
+    private readonly logRepository: LogRepository,
+  ) {}
 
-    constructor(
-        private readonly emailService: EmailService,
-        private readonly logRepository: LogRepository,
-    ) {}
+  async execute(to: string | string[]) {
+    try {
+      const sent = await this.emailService.sendEmailWithFileSystemLogs(to);
 
-    async execute(to: string | string[]) {
+      if (!sent) throw new Error('Email log not sent');
 
-        try {
+      const log = new LogEntity({
+        message: `Log email sent`,
+        level: LogSeverityLevel.medium,
+        origin: 'send-email-logs.ts',
+      });
 
-            const sent = await this.emailService.sendEmailWithFileSystemLogs(to);
-            
-            if (!sent) throw new Error('Email log not sent');
+      this.logRepository.saveLog(log);
 
-            const log = new LogEntity({
-                message: `Log email sent`,
-                level: LogSeverityLevel.medium,
-                origin: 'send-email-logs.ts'
-            });
-            
-            this.logRepository.saveLog(log);
+      return true;
+    } catch (error) {
+      const log = new LogEntity({
+        message: `${error}`,
+        level: LogSeverityLevel.high,
+        origin: 'send-email-logs.ts',
+      });
 
-            return true;
+      this.logRepository.saveLog(log);
 
-        } catch (error) {
-
-            const log = new LogEntity({
-                message: `${error}`,
-                level: LogSeverityLevel.high,
-                origin: 'send-email-logs.ts'
-            });
-
-            this.logRepository.saveLog(log);
-
-            return false;
-            
-        }
+      return false;
     }
+  }
 }
